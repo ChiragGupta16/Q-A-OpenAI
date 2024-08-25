@@ -1,26 +1,18 @@
-from langchain.llms import OpenAI
-
 import streamlit as st
 import os
+from langchain_huggingface import HuggingFaceEndpoint
+#os.environ["HUGGINGFACEHUB_API_TOKEN"] = "xyz"
+llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-Nemo-Instruct-2407")
+
+def interface():
+    form = st.form("Type yor Question")
+    inp = form.text_input("Ask meeee !!")
+    btn = form.form_submit_button("Submit")
+    return btn, inp
+
+def process(inp):
+    out = llm.invoke(inp)
+    st.write(inp+out)
+    
 
 
-def getresponse(question):
-    llm=OpenAI(model_name="text-davinci-003",temperature=0.5)
-    response=llm(question)
-    return response
-
-##initialize our streamlit app
-
-st.set_page_config(page_title="Q&A Demo")
-
-st.header("Langchain Application")
-
-input=st.text_input("Input: ",key="input")
-response=getresponse(input)
-
-submit=st.button("Ask the question")
-
-
-if submit:
-    st.subheader("The Response is")
-    st.write(response)
