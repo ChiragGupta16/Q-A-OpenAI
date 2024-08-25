@@ -1,6 +1,8 @@
 import streamlit as st
 import os
 from langchain_huggingface import HuggingFaceEndpoint
+from speech import Speak
+
 #os.environ["HUGGINGFACEHUB_API_TOKEN"] = "xyz"
 llm = HuggingFaceEndpoint(repo_id="mistralai/Mistral-Nemo-Instruct-2407")
 
@@ -13,6 +15,7 @@ def interface():
 def process(inp):
     out = llm.invoke(inp)
     st.write(inp+out)
+    Speak(inp+out)
     
 
 
